@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Towers of Hanoi</title>
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="light">
+    <div class="app-container">
+        <nav class="top-nav">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <i class="fas fa-chess-rook"></i>
+                    <span data-i18n="title">Towers of Hanoi</span>
+                </div>
+                <div class="nav-controls">
+                    <select id="language" class="select-styled">
+                        <option value="en">English</option>
+                        <option value="tr">Türkçe</option>
+                    </select>
+                    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="game-panel">
+                <div class="game-controls">
+                    <div class="control-group">
+                        <label for="diskCount" data-i18n="diskCount">Disk Count:</label>
+                        <select id="diskCount" class="select-styled">
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                    <button id="startGame" class="btn-primary" data-i18n="start">Start Game</button>
+                    <div class="stats">
+                        <i class="fas fa-arrows-rotate"></i>
+                        <span data-i18n="moves">Moves</span>: <span id="moveCount">0</span>
+                    </div>
+                </div>
+
+                <div class="game-container">
+                    <div class="tower" data-tower="1">
+                        <div class="tower-label">A</div>
+                    </div>
+                    <div class="tower" data-tower="2">
+                        <div class="tower-label">B</div>
+                    </div>
+                    <div class="tower" data-tower="3">
+                        <div class="tower-label">C</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div id="winMessage" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fas fa-trophy trophy-icon"></i>
+                    <h2 data-i18n="congratulations">Congratulations!</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="confetti-container">
+                        <i class="fas fa-star confetti"></i>
+                        <i class="fas fa-star confetti"></i>
+                        <i class="fas fa-star confetti"></i>
+                    </div>
+                    <p class="completion-text">
+                        <span data-i18n="completed">You completed the puzzle in</span>
+                        <span class="moves-count"><span id="finalMoves">0</span> <span
+                                data-i18n="moves">moves</span></span>!
+                    </p>
+                    <button id="playAgain" class="btn-primary" data-i18n="playAgain">
+                        <i class="fas fa-redo"></i>
+                        Play Again
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="i18n.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
