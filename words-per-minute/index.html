@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Words Per Minute</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body
+  class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300 min-h-screen flex flex-col">
+  <header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl font-bold text-primary-600 dark:text-primary-400" data-i18n="title">Words Per Minute</h1>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
+          <label for="ui-language" class="font-medium text-sm" data-i18n="uiLanguage">UI Language:</label>
+          <select id="ui-language"
+            class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+          </select>
+        </div>
+        <button id="theme-toggle"
+          class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+          <svg id="moon-icon" class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="sun-icon" class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+              fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto my-8 px-4 flex-grow flex flex-col items-center justify-center">
+    <div class="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+      <div class="mb-6 flex items-center justify-center gap-4">
+        <div class="flex items-center gap-2">
+          <label for="game-language" class="font-medium" data-i18n="gameLanguage">Game Language:</label>
+          <select id="game-language"
+            class="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+          </select>
+        </div>
+        <button id="start-button"
+          class="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-md transition-colors shadow-sm"
+          data-i18n="startButton">
+          Start
+        </button>
+        <button id="reset-button"
+          class="border border-gray-300 dark:border-gray-600 px-6 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors hidden"
+          data-i18n="reset">
+          Reset
+        </button>
+      </div>
+
+      <div id="game-area" class="flex flex-col items-center gap-6">
+        <!-- Stats Display -->
+        <div class="flex justify-center gap-6 w-full">
+          <div class="stats-card">
+            <span data-i18n="wpmLabel">WPM:</span>
+            <span id="wpm-display" class="font-bold text-lg">0</span>
+          </div>
+          <div class="stats-card">
+            <span data-i18n="accuracyLabel">Accuracy:</span>
+            <span id="accuracy-display" class="font-bold text-lg">0%</span>
+          </div>
+          <div class="stats-card">
+            <span data-i18n="timeLeft">Time Left:</span>
+            <span id="time-display" class="font-bold text-lg">60</span>
+            <span data-i18n="seconds">seconds</span>
+          </div>
+        </div>
+
+        <!-- Word Display -->
+        <div class="relative w-full">
+          <div id="word-display" class="text-4xl font-bold text-center py-6 text-gray-800 dark:text-gray-200"></div>
+          <div class="w-full flex justify-center">
+            <input type="text" id="word-input"
+              class="w-full max-w-md px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 text-center"
+              placeholder="Type the word here..." data-i18n="placeholder" disabled>
+          </div>
+        </div>
+
+        <!-- Game Over UI -->
+        <div id="game-over" class="hidden flex flex-col items-center gap-4 mt-6">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200" data-i18n="gameOver">Game Over!</h2>
+          <div class="flex flex-col gap-2">
+            <div class="result-row">
+              <span data-i18n="yourScore">Your Score:</span>
+              <span id="final-score" class="font-bold"></span>
+            </div>
+            <div class="result-row">
+              <span data-i18n="wordsTyped">Words Typed:</span>
+              <span id="words-typed" class="font-bold"></span>
+            </div>
+            <div class="result-row">
+              <span data-i18n="accuracy">Accuracy:</span>
+              <span id="final-accuracy" class="font-bold"></span>
+            </div>
+          </div>
+          <button id="new-game"
+            class="mt-4 bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-md transition-colors shadow-sm"
+            data-i18n="newGame">
+            New Game
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Server Error Modal -->
+    <div id="server-error-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 max-w-md w-full">
+        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3" data-i18n="serverErrorTitle">Connection Error</h3>
+        <p class="text-gray-700 dark:text-gray-300 mb-4" data-i18n="serverErrorMessage">Due to traffic the server cannot serve now. Please try again in 1-2 minutes.</p>
+        <div class="flex justify-end">
+          <button id="close-error-modal" class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md transition-colors shadow-sm" data-i18n="close">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-100 dark:bg-gray-800 py-4 text-center text-sm text-gray-600 dark:text-gray-400">
+    <p>WPM - Words Per Minute Typing Game - 2025</p>
+  </footer>
+
+  <script src="./locales/i18n.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

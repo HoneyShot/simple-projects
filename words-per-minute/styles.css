@@ -1,0 +1,52 @@
+/* Custom styles to complement Tailwind */
+
+.stats-card {
+  @apply bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 shadow-sm;
+}
+
+.result-row {
+  @apply flex justify-between gap-8 text-lg;
+}
+
+/* Word display highlighting for correct/incorrect typing */
+.correct-char {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.incorrect-char {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.current-char {
+  @apply bg-primary-200 dark:bg-primary-700 rounded;
+}
+
+/* Transition effects */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Game over screen animation */
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
